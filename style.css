@@ -1,0 +1,118 @@
+body {
+  background-color: #f0ecff;
+}
+
+.up {
+  position: fixed;
+  right: -45px;
+  bottom: 20px;
+  background: #198754;
+  color: white;
+  padding: 5px;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.up.show {
+  right: 8px;
+}
+
+.down {
+  position: fixed;
+  right: 8px;
+  top: 55px;
+  background: #198754;
+  color: white;
+  padding: 5px;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.profileImg {
+  width: 40px;
+  cursor: pointer;
+}
+
+#showAlert {
+  position: fixed;
+  bottom: 10px;
+  right: 8px;
+  z-index: 999;
+}
+
+.tags .tagsBtn {
+  background-color: #aaa;
+  color: #fff;
+  border-radius: 10px;
+  padding: 5px 10px;
+  margin: 5px;
+  border: none;
+}
+
+.addPostIcon {
+  position: fixed;
+  width: 35px;
+  height: 44px;
+  text-align: center;
+  right: 8px;
+  bottom: 85px;
+  background: #5050f4;
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+textarea {
+  width: 100%;
+  min-height: 80px;
+  /* resize: both !important; */
+  border-radius: 10px;
+  border-color: #ddd;
+}
+
+.contentImage {
+  max-height: 60dvh;
+}
+
+.card-body {
+  cursor: pointer;
+}
+
+.comment {
+  background-color: #ddd;
+  border-radius: 5px;
+}
+
+#addComment {
+  padding: 8px;
+}
+
+
+@media (max-width: 576px) {
+  .container {
+    padding: 0 !important;
+  }
+
+  .content {
+    width: 100% !important;
+  }
+
+  /* .container .d-flex {
+    display: block !important;
+  } */
+
+  /* .addPostIcon,
+  .up.show,
+  .down {
+    right: 0;
+  } */
+}

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Media App</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./node_modules/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+  <!-- Register modal -->
+  <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Register A New User</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Profile Image:</label>
+              <input type="file" class="form-control" id="registerImageInput">
+            </div>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Name:</label>
+              <input type="text" class="form-control" id="registerNameInput" autocomplete="name">
+            </div>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Username:</label>
+              <input type="text" class="form-control" id="registerUsernameInput" autocomplete="username">
+            </div>
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Password:</label>
+              <input type="password" class="form-control" id="registerPasswordInput" autocomplete="current-password">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="registerBtnClicked()">Register</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- login modal -->
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Login</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label" autocomplete="username">Username:</label>
+              <input type="text" class="form-control" id="usernameInput" value="hamo" autocomplete="username">
+            </div>
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Password:</label>
+              <input type="password" class="form-control" id="passwordInput" value="123456"
+                autocomplete="current-password">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="loginBtnClicked()">Login</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alerts -->
+  <div class="show fade" id="showAlert"></div>
+
+  <!-- navbar -->
+  <div class="container">
+    <div class="d-flex justify-content-center">
+      <div class="col-8 col-sm-12 content">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary shadow rounded p-2">
+          <a class="navbar-brand" href="index.html">Social App</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#profile">Profile</a>
+              </li>
+            </ul>
+            <div class="d-flex w-100 justify-content-end align-items-center">
+              <button type="button" data-bs-toggle="modal" data-bs-target="#loginModal"
+                class="btn btn-outline-success mx-2" id="loginBtn">Login</button>
+              <button type="button" data-bs-toggle="modal" data-bs-target="#registerModal"
+                class="btn btn-outline-success" id="registerBtn">Register</button>
+              <div id="logoutDiv">
+                <img id="navUserImage" class="profileImg rounded-circle" src="Images/profile.JPG" alt="">
+                <b id="navUsername">@Mandela</b>
+                <button type="button" class="btn btn-outline-danger mx-2" onclick="logout()">Logout</button>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="container">
+    <div class="d-flex justify-content-center mt-3">
+      <div class="col-8 col-sm-12 content">
+        <h1>
+          <span id="usernameSpan">
+            Mandela
+          </span>'s Post
+        </h1>
+      </div>
+    </div>
+
+    <!-- Post Row -->
+    <div id="post">
+      <!-- Post Card -->
+      <div class="card shadow my-3">
+        <div class="card-header">
+          <img class="rounded-circle" style="width: 40px; height: 40px;" loading="lazy" src="${post.image}" alt="">
+          <b>${author}</b>
+          <!-- edit button -->
+        </div>
+        <div class="card-body">
+          <img class="w-100 contentImage" src="${post.image}" alt="" loading="lazy">
+          <h5>${postTitle}</h5>
+          <p>${post.body}</p>
+          <hr />
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen"
+              viewBox="0 0 16 16">
+              <path
+                d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z" />
+            </svg>
+            <span>${post.comments_count} ${comment}
+            </span>
+          </div>
+          <h6 class="mt-2">${post.created_at}</h6>
+        </div>
+
+        <!-- Comments -->
+        <div id="comments">
+          <!-- Comment -->
+          <div class="p-3 m-2 comment">
+            <div>
+              <img src="./Images/profile.JPG" class="rounded-circle" alt="" style="width: 40px;">
+              <b>@Mandela</b>
+            </div>
+
+            <!-- Comment's Body -->
+            <div>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus quisquam officia tempore corporis ?
+            </div>
+
+            <!-- Send Comment -->
+            <div>
+              <input type="text" placeholder="write your comment" class="form-control">
+              <button class="btn-outline-primary">Send</button>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="./script.js"></script>
+
+</body>
+
+</html>

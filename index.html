@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Media App</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./node_modules/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+  <!-- Register modal -->
+  <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Register A New User</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Profile Image:</label>
+              <input type="file" class="form-control" id="registerImageInput">
+            </div>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Name:</label>
+              <input type="text" class="form-control" id="registerNameInput">
+            </div>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Username:</label>
+              <input type="text" class="form-control" id="registerUsernameInput">
+            </div>
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Password:</label>
+              <input type="password" class="form-control" id="registerPasswordInput">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="registerBtnClicked()">Register</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- login modal -->
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Login</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label" autocomplete="username">Username:</label>
+              <input type="text" class="form-control" id="usernameInput" value="hamo">
+            </div>
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Password:</label>
+              <input type="password" class="form-control" id="passwordInput" value="123456"
+                autocomplete="current-password">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="loginBtnClicked()">Login</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Create Post modal -->
+  <div class="modal fade" id="createPostModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="postModalTitle">Create A New Post</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Title</label>
+              <input type="text" class="form-control" id="postTitleInput">
+              <input type="hidden" id="postIdInput" value="">
+            </div>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Body</label>
+              <textarea id="postBodyInput"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Image</label>
+              <input type="file" class="form-control" id="postImageInput">
+              <!-- <img src="" alt="" loading="lazy"> -->
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button id="postModalSubmitBtn" type="button" class="btn btn-primary"
+            onclick="createNewPostClicked()">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alerts -->
+  <div class="show fade" id="showAlert"></div>
+
+  <!-- navbar -->
+  <div class="container">
+    <div class="d-flex justify-content-center">
+      <div class="col-8 col-sm-12 content">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary shadow rounded p-2">
+          <a class="navbar-brand" href="index.html">Social App</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#profile">Profile</a>
+              </li>
+            </ul>
+            <div class="d-flex w-100 justify-content-end align-items-center">
+              <button type="button" data-bs-toggle="modal" data-bs-target="#loginModal"
+                class="btn btn-outline-success mx-2" id="loginBtn">Login</button>
+              <button type="button" data-bs-toggle="modal" data-bs-target="#registerModal"
+                class="btn btn-outline-success" id="registerBtn">Register</button>
+              <div id="logoutDiv">
+                <img id="navUserImage" class="profileImg rounded-circle" src="Images/profile.JPG" alt="">
+                <b id="navUsername">@Mandela</b>
+                <button type="button" class="btn btn-outline-danger mx-2" onclick="logout()">Logout</button>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- content -->
+  <div class="container">
+    <div class="d-flex justify-content-center mt-4">
+      <div class="col-8 col-sm-12 content">
+        <div id="posts">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <span class="addPostIcon" id="addPostIcon" title="Create New Post" onclick="addPostIconClicked()">
+    +
+  </span>
+
+  <span class="up" onclick="scrollToTop()" title="Scroll To Top">
+    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="30" fill="currentColor"
+      class="bi bi-arrow-up-circle-fill" viewBox="0 0 16 16">
+      <path
+        d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z" />
+    </svg>
+  </span>
+
+  <span class="down" onclick="scrollToBottom()" title="Scroll To Bottom">
+    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="30" fill="currentColor"
+      class="bi bi-arrow-down-circle-fill" viewBox="0 0 16 16">
+      <path
+        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z" />
+    </svg>
+  </span>
+
+  <script src="./script.js"></script>
+  <script>
+    function scrollToTop() {
+      let scrollTopBtn = document.querySelector(".up");
+      window.onscroll = function () {
+        this.scrollY >= 600
+          ? scrollTopBtn.classList.add("show")
+          : scrollTopBtn.classList.remove("show");
+      };
+      window.scroll(0, 0);
+    }
+    scrollToTop();
+
+    function scrollToBottom() {
+      let height = document.body.scrollHeight;
+      window.scroll(0, height);
+    }
+    scrollToBottom();
+
+    let currentPage = 1;
+    let lastPage = 1;
+
+    // infinite scroll to get pagination
+    window.addEventListener("scroll", function () {
+      const endOfPage =
+        window.innerHeight + window.scrollY >= document.body.offsetHeight;
+      if (endOfPage && currentPage < lastPage) {
+        currentPage = currentPage + 1;
+        getPosts(false, currentPage);
+      }
+    });
+
+
+  </script>
+</body>
+
+</html>
