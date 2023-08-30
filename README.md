@@ -1,6 +1,6 @@
 # Social-App
 
-live-server: https://helpful-llama-902629.netlify.app/
+live-server: https://social-media-mandela-app.netlify.app/
 
 This app provides authentication & authorization with a different UI for registered users and more features like add a new post, edit your own posts and add comments.
 
