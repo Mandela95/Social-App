@@ -6,3 +6,5 @@ This app provides authentication & authorization with a different UI for registe
 
 ![Social-App(queue)](https://raw.githubusercontent.com/Mandela95/Social-App/main/queue.png)
 
+![Social-App(comment)](https://github.com/Mandela95/Social-App/blob/main/Images/comment.png?raw=true)
+
